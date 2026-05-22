@@ -49,6 +49,7 @@ extend-immutable-calls = ["typer.Argument", "typer.Option"]
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ANN", "D"]
 "examples/*" = ["D"]
+"src/gemini_vision/prompts.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
