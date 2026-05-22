@@ -1,0 +1,53 @@
+[project]
+name = "gemini-vision-pipeline"
+version = "0.1.0"
+description = "Zero-shot object detection pipeline powered by Google Gemini 3.5 Flash"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{ name = "Jules Koehler", email = "jules@levelups.fr" }]
+dependencies = [
+    "google-genai>=1.0",
+    "supervision",
+    "pydantic>=2.5",
+    "pydantic-settings>=2.1",
+    "typer>=0.12",
+    "python-dotenv>=1.0",
+    "pillow>=10.0",
+]
+
+[project.scripts]
+gemini-vision = "gemini_vision.cli:app"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[tool.uv.sources]
+supervision = { git = "https://github.com/roboflow/supervision.git", branch = "add-gemini-3.5-vlm-support" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gemini_vision"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ANN", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["typer.Argument", "typer.Option"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN", "D"]
+"examples/*" = ["D"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
