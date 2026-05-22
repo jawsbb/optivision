@@ -9,6 +9,15 @@ from gemini_vision.detector import ObjectDetector
 app = typer.Typer(help="Zero-shot object detection with Google Gemini 3.5 Flash.")
 
 
+@app.callback()
+def main() -> None:
+    """Run the Gemini vision pipeline from the command line.
+
+    Declaring a callback keeps ``detect`` as an explicit subcommand; without
+    it, Typer collapses a single-command app and drops the command name.
+    """
+
+
 @app.command()
 def detect(
     image: Path = typer.Argument(..., help="Path to the input image."),
