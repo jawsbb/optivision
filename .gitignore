@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual environment
+.venv/
+
+# Environment secrets
+.env
+
+# Example images (downloaded, not committed)
+assets/*.jpg
+assets/*.jpeg
+assets/*.png
+
+# Example script outputs
+*_annotated.jpg
