@@ -52,19 +52,29 @@ class ObjectDetector:
     def __init__(
         self,
         model: str | None = None,
-        temperature: float = 0.0,
-        thinking_budget: int = 0,
+        temperature: float | None = None,
+        thinking_budget: int | None = None,
     ) -> None:
         """Initialize the detector.
 
+        Unset arguments fall back to the values in ``Settings``.
+
         Args:
             model: Gemini model identifier. Defaults to the configured model.
-            temperature: Sampling temperature.
-            thinking_budget: Thinking budget; 0 disables thinking.
+            temperature: Sampling temperature. Defaults to the configured value.
+            thinking_budget: Thinking budget; 0 disables thinking. Defaults to
+                the configured value.
         """
-        self.model = model or get_settings().gemini_model
-        self.temperature = temperature
-        self.thinking_budget = thinking_budget
+        settings = get_settings()
+        self.model = model or settings.gemini_model
+        self.temperature = (
+            settings.default_temperature if temperature is None else temperature
+        )
+        self.thinking_budget = (
+            settings.default_thinking_budget
+            if thinking_budget is None
+            else thinking_budget
+        )
 
     def _build_config(self, structured_output: bool) -> types.GenerateContentConfig:
         """Build the Gemini generation config for a detection call.

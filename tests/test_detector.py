@@ -69,3 +69,11 @@ def test_detect_raises_on_none_response(monkeypatch, fake_gemini_client):
     detector = ObjectDetector(model="gemini-3.5-flash")
     with pytest.raises(ValueError):
         detector.detect(Image.new("RGB", (10, 10)), ["car"])
+
+
+def test_detector_uses_configured_defaults(monkeypatch):
+    monkeypatch.setenv("DEFAULT_TEMPERATURE", "0.7")
+    monkeypatch.setenv("DEFAULT_THINKING_BUDGET", "128")
+    detector = ObjectDetector(model="gemini-3.5-flash")
+    assert detector.temperature == 0.7
+    assert detector.thinking_budget == 128
