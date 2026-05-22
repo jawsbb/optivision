@@ -66,9 +66,7 @@ class ObjectDetector:
         self.temperature = temperature
         self.thinking_budget = thinking_budget
 
-    def _build_config(
-        self, structured_output: bool
-    ) -> types.GenerateContentConfig:
+    def _build_config(self, structured_output: bool) -> types.GenerateContentConfig:
         """Build the Gemini generation config for a detection call.
 
         Args:
@@ -143,9 +141,7 @@ class ObjectDetector:
             A tuple of the detection result and the annotated image.
         """
         pil_image = _load_image(image)
-        result = self.detect(
-            pil_image, classes, structured_output=structured_output
-        )
+        result = self.detect(pil_image, classes, structured_output=structured_output)
         sv_detections = sv.Detections.from_vlm(
             vlm=sv.VLM.GOOGLE_GEMINI_3_5,
             result=result.raw_response,

@@ -6,17 +6,13 @@ import typer
 
 from gemini_vision.detector import ObjectDetector
 
-app = typer.Typer(
-    help="Zero-shot object detection with Google Gemini 3.5 Flash."
-)
+app = typer.Typer(help="Zero-shot object detection with Google Gemini 3.5 Flash.")
 
 
 @app.command()
 def detect(
     image: Path = typer.Argument(..., help="Path to the input image."),
-    classes: str = typer.Option(
-        ..., "--classes", help="Comma-separated class names."
-    ),
+    classes: str = typer.Option(..., "--classes", help="Comma-separated class names."),
     output: Path | None = typer.Option(
         None, "--output", "-o", help="Path for the annotated image."
     ),
@@ -47,9 +43,7 @@ def detect(
         annotated.save(output)
         typer.echo(f"Annotated image saved to {output}")
     else:
-        result = detector.detect(
-            image, class_list, structured_output=structured
-        )
+        result = detector.detect(image, class_list, structured_output=structured)
 
     typer.echo(f"Detected {len(result.detections)} object(s).")
 
