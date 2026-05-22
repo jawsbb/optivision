@@ -23,9 +23,16 @@ def test_detection_rejects_confidence_below_zero():
         Detection(label="car", confidence=-0.1, box_2d=[10, 20, 30, 40])
 
 
+def test_detection_accepts_confidence_boundary_values():
+    Detection(label="car", confidence=0.0, box_2d=[0, 0, 0, 0])
+    Detection(label="car", confidence=1.0, box_2d=[0, 0, 0, 0])
+
+
 def test_detection_rejects_wrong_box_length():
     with pytest.raises(ValidationError):
         Detection(label="car", confidence=0.5, box_2d=[10, 20, 30])
+    with pytest.raises(ValidationError):
+        Detection(label="car", confidence=0.5, box_2d=[10, 20, 30, 40, 50])
 
 
 def test_detection_result_holds_metadata():
