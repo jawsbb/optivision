@@ -20,7 +20,7 @@ IMAGES=(
 
 for img in "${IMAGES[@]}"; do
   echo "Downloading $img"
-  wget -q "$BASE/$img" -O "$DEST/$img"
+  curl -fsSL "$BASE/$img" -o "$DEST/$img"
 done
 
 echo "Done. ${#IMAGES[@]} images saved to $DEST"
