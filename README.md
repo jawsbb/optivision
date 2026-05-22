@@ -20,10 +20,17 @@ Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 uv sync
 ```
 
-Or with pip:
+After `uv sync`, either activate the environment (`source .venv/bin/activate`)
+or prefix the commands below with `uv run` (for example, `uv run gemini-vision ...`).
+
+### Installing with pip
+
+`pip` does not read `[tool.uv.sources]`, so the `supervision` branch must be
+installed explicitly:
 
 ```bash
 pip install -e .
+pip install "supervision @ git+https://github.com/roboflow/supervision.git@add-gemini-3.5-vlm-support"
 ```
 
 ## Configuration
@@ -78,7 +85,7 @@ Three runnable scripts live in [`examples/`](examples/):
 - `02_multi_class.py` — multi-class detection (avocados)
 - `03_structured_output.py` — structured output for a dense scene (people)
 
-Download the example images first:
+Download the example images first, then run any of the three scripts:
 
 ```bash
 bash scripts/download_examples.sh
