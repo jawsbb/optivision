@@ -5,8 +5,18 @@ from PIL import Image
 
 COLOR = sv.ColorPalette.from_hex(
     [
-        "#ffff00", "#ff9b00", "#ff66ff", "#3399ff", "#ff66b2", "#ff8080",
-        "#b266ff", "#9999ff", "#66ffff", "#33ff99", "#66ff66", "#99ff00",
+        "#ffff00",
+        "#ff9b00",
+        "#ff66ff",
+        "#3399ff",
+        "#ff66b2",
+        "#ff8080",
+        "#b266ff",
+        "#9999ff",
+        "#66ffff",
+        "#33ff99",
+        "#66ff66",
+        "#99ff00",
     ]
 )
 
