@@ -20,6 +20,8 @@ _FENCE_RE = re.compile(r"^```(?:json)?\s*|\s*```$")
 def _load_image(image: Image.Image | str | Path) -> Image.Image:
     """Return a PIL image, opening it from disk if a path was given.
 
+    A PIL image passed in is returned by reference, not copied.
+
     Args:
         image: A PIL image, or a path to an image file.
 
@@ -109,6 +111,11 @@ class ObjectDetector:
             contents=[pil_image, prompt],
             config=self._build_config(structured_output),
         )
+        if response.text is None:
+            raise ValueError(
+                "Gemini returned no text; the response may have been blocked "
+                "or truncated."
+            )
         return DetectionResult(
             detections=_parse_detections(response.text),
             classes=classes,

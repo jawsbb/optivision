@@ -2,6 +2,7 @@
 
 from unittest.mock import MagicMock
 
+import pytest
 from PIL import Image
 
 from gemini_vision.detector import ObjectDetector
@@ -61,3 +62,24 @@ def test_detect_and_annotate_calls_from_vlm(monkeypatch, fake_gemini_client):
     assert captured["classes"] == ["car"]
     assert captured["resolution_wh"] == (64, 48)
     assert isinstance(annotated, Image.Image)
+    assert fake_gemini_client.models.generate_content.call_count == 1
+
+
+def test_detect_passes_structured_output_config(monkeypatch, fake_gemini_client):
+    monkeypatch.setattr(
+        "gemini_vision.detector.get_client", lambda: fake_gemini_client
+    )
+    detector = ObjectDetector(model="gemini-3.5-flash")
+    detector.detect(Image.new("RGB", (10, 10)), ["car"], structured_output=True)
+    config = fake_gemini_client.models.generate_content.call_args.kwargs["config"]
+    assert config.response_mime_type == "application/json"
+
+
+def test_detect_raises_on_none_response(monkeypatch, fake_gemini_client):
+    fake_gemini_client.models.generate_content.return_value = MagicMock(text=None)
+    monkeypatch.setattr(
+        "gemini_vision.detector.get_client", lambda: fake_gemini_client
+    )
+    detector = ObjectDetector(model="gemini-3.5-flash")
+    with pytest.raises(ValueError):
+        detector.detect(Image.new("RGB", (10, 10)), ["car"])
